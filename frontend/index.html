@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador AFN-ε</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<main class="app-shell">
+    <header class="hero">
+        <div class="brand-mark">ε</div>
+        <div class="hero-copy">
+            <h1>Simulador AFN-ε</h1>
+            <p>Autômato finito não determinístico com movimentos vazios — visualize o ε-fecho, os estados ativos e a interseção com F passo a passo.</p>
+        </div>
+        <div class="hero-badges">
+            <span class="badge" id="state-count">3 estados</span>
+        </div>
+    </header>
+
+    <div class="workspace">
+        <aside class="sidebar">
+            <section class="panel definition-panel">
+                <div class="panel-heading">
+                    <h2><span>(A)</span> Definição</h2>
+                    <label class="upload-button" for="automaton-file">Carregar JSON</label>
+                    <input id="automaton-file" class="sr-only" type="file" accept=".json,application/json">
+                </div>
+                <label class="field-label" for="automaton">JSON do autômato</label>
+                <textarea id="automaton" rows="18" spellcheck="false"></textarea>
+                <p class="definition-status" id="definition-status">definição carregada</p>
+            </section>
+
+            <section class="panel simulation-panel">
+                <div class="panel-heading"><h2><span>(B)</span> Simulação</h2></div>
+                <label class="field-label" for="word-list">Palavra carregada do JSON</label>
+                <select id="word-list"><option value="">Digitar manualmente</option></select>
+                <label class="field-label" for="word">Palavra manual</label>
+                <input id="word" type="text" placeholder="Ex.: aaab">
+                <div class="actions">
+                    <button id="simulate" class="button button-primary">Simular palavra</button>
+                    <button id="simulate-all" class="button button-secondary" type="button">Simular todas</button>
+                </div>
+            </section>
+
+            <section id="error-section" class="panel error-panel" hidden>
+                <h2>Erro</h2><p id="error"></p>
+            </section>
+        </aside>
+
+        <div class="main-content">
+            <section id="automaton-view-section" class="panel diagram-panel">
+                <div class="panel-heading diagram-heading">
+                    <h2><span>(C)</span> Diagrama do autômato</h2>
+                    <div class="legend">
+                        <span><i class="dot current-dot"></i>estado atual</span>
+                        <span><i class="dot reachable-dot"></i>alcançável</span>
+                        <span><i class="dot epsilon-dot"></i>fecho-ε</span>
+                        <span><i class="dot final-dot"></i>final</span>
+                        <span><i class="dot rejected-dot"></i>rejeição</span>
+                    </div>
+                </div>
+                <div id="automaton-container"><svg id="automaton-svg" role="img" aria-label="Diagrama do autômato"></svg></div>
+                <p class="diagram-caption" id="diagram-caption">Estados ativos serão destacados durante a simulação.</p>
+            </section>
+
+            <section id="result-section" class="panel timeline-panel" hidden>
+                <div class="timeline-header">
+                    <div class="panel-heading"><h2><span>(D)</span> Linha do tempo</h2></div>
+                    <div id="simulation-controls">
+                        <button id="previous-step" class="button button-secondary" type="button">Anterior</button>
+                        <span id="step-indicator">Passo 0</span>
+                        <button id="next-step" class="button button-primary" type="button">Próximo</button>
+                    </div>
+                </div>
+                <div id="timeline-track" class="timeline-track" aria-label="Passos da simulação"></div>
+                <div class="step-grid">
+                    <div class="detail-card">
+                        <span class="eyebrow">detalhe do passo</span>
+                        <div id="step-details"></div>
+                    </div>
+                    <div class="verdict-card">
+                        <span class="eyebrow">veredito</span>
+                        <div id="result" aria-live="polite"></div>
+                        <div id="verdict-details" class="verdict-details">Avance até o último passo para ver a interseção com F e o veredito.</div>
+                    </div>
+                </div>
+                <details class="raw-steps" open><summary>Processamento textual completo</summary><div id="steps"></div></details>
+            </section>
+
+            <section id="all-results-section" class="panel results-panel" hidden>
+                <div class="panel-heading"><h2><span>(E)</span> Resultados de múltiplas palavras</h2></div>
+                <div id="all-results"></div>
+                <p class="table-hint">Clique em uma linha para revisar os passos daquela palavra.</p>
+            </section>
+        </div>
+    </div>
+</main>
+<script src="./js/app.js"></script>
+</body>
+</html>
